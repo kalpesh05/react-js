@@ -1,0 +1,155 @@
+<!doctype html>
+<html style="height:100%;">
+<head>
+<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Untitled Document</title>
+ 
+<link href="css/bootstrap.css" rel="stylesheet" type="text/css">
+<link href="css/style.css" rel="stylesheet" type="text/css">
+<link href="css/modal.css" rel="stylesheet" type="text/css">
+<link href="css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet"> 
+
+</head>
+
+
+<body style="height:100%;">
+
+
+<div class="container-fluid bg">
+   
+<div class="row pad">
+  <div class="col-xs-10 col-sm-11 icon" style="padding-left:0;">
+    <img src="img/ic_reminder_w@3x.png" />
+  <a data-toggle="modal" data-target="#myModal">
+    <img src="img/ic_info@3x.png" />
+  </a>  
+  </div>
+ 
+  <div class="col-xs-2 col-sm-1 icon1">
+    <img src="img/ic_close@3x.png" />
+  </div>
+</div>
+ 
+<div class="container">
+          
+    <div class="row text-center">
+           <div class="col-xs-12">    
+             <h2>Conversation 1</h2>
+             <img src="img/audio iocn.png" />
+             <h6>Tap anywhere to play</h6>
+           </div>
+    </div>
+
+     
+       
+       
+        
+      <div class="row1 justify-content-center">
+            
+            <div class="box">
+                <p>3 <br> min</p>
+            </div>
+            
+            
+            <div class="box box1 ">
+                <p>5 <br> min</p>
+           
+            </div>
+        
+            
+            <div class="box ">
+                <p>10 <br> min</p>
+           
+            </div>
+          
+     </div>
+        
+       
+        
+      
+        
+    </div>
+ </div>
+  
+</div>
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-size"  role="document">
+    <div class="modal-content modal-style">
+      
+      <div class="modal-body text-center">
+        
+        <h2>Conversation</h2>
+        
+        <h4>Basic</h4>
+        
+        <p>
+           Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum 
+
+        </p>
+        
+        <a href="#" class="btn btn-color">DIVE THRU</a>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<!--Endplayer modal Start --> 
+  <div class="modal fade" id="exampleModalCenter">
+  <div class="modal-dialog modal-dialog1" role="document">
+    <div class="modal-content1">
+      
+      <div class="modal-body modal-body1 center">
+		<h5>Write your Journal</h5>
+        <form>
+			  <div class="form-group mb-0">
+				<!-- <label for="message-text" class="col-form-label">Feedback:</label> -->
+			
+				<textarea class="modal-form-control1" id="message-text" required>As I read what I wrote, I connected with...</textarea>
+			  </div>
+			
+			  <div class="modal-footer" style="border-top: 0 !important;">
+				  <button type="button" class="btn1 journaladd mt-4" style="color:#FFF; background-color: #7DD3D5 !important; outline: none !important; border-color:  #7DD3D5 !important;">Add in My Journal</button>
+			  </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</div>
+  <!--Endplayer modal end -->
+
+       
+
+
+
+
+
+
+<script src="css/js/jquery.js" type="text/javascript"></script>
+<script src="css/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+
+<script>
+$("document").ready(function(){
+//alert(55);
+ $('#exampleModalCenter').on('shown.bs.modal', function () {
+          $("#message-text").val("As I read what I wrote, I connected with....");
+          $("#message-text").focus();
+        })
+	 $('#exampleModalCenter').modal("show");
+
+});
+
+</script>
+
+</body>
+</html>

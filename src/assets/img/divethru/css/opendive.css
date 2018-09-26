@@ -1,0 +1,68 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*HEADER*/
+
+
+
+
+
+
+
+
+.card1 {border:none !important;
+        border-radius:0 !important;}
+
+
+.center{position: absolute;
+    top: 50%;
+    left: 50%; 
+	text-align:center;
+    transform: translateX(-50%) translateY(-50%);}
+	
+.card-img-overlay1 {
+  position: absolute !important;}
+
+.card-img1 {
+  width: 100%;
+  border-radius:0;
+}
+
+.card p {font-size: 18px;}
+
+@media (max-width:767px){
+	
+.card p {font-size: 24px;}	
+}
+
+
+
+@media (min-width:931px){
+	
+.card p {font-size: 18px;}	
+}
+
+@media (min-width:1050px){
+	
+.card p {font-size: 20px;}	
+}
+
+@media (min-width:1287px){
+	
+.card p {font-size: 24px;}	
+}
+
+@media (min-width:1525px){
+	
+.card p {font-size: 28px;}	
+}
+	   
+@media (min-width:1644px){
+	
+.card p {font-size: 30px;}	
+}
+
+@media (min-width:1762px){
+	
+.card p {font-size: 32px;}	
+}

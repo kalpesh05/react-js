@@ -1,0 +1,354 @@
+//Firebase registration
+
+function save_user() {
+			var first_name=document.getElementById('first_name').value;
+			var last_name=document.getElementById('last_name').value;
+			var email=document.getElementById('email').value;
+			var password=document.getElementById('password').value;
+			var bdate=document.getElementById('birthdate').value;
+			//var access_code=document.getElementById('access_code').value;
+
+			var currentdate = new Date(); 
+			var datetime = 
+			    + currentdate.getDate() + "/"
+                + (currentdate.getMonth()+1)  + "/" 
+                + currentdate.getFullYear() + "  "  
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds();
+			 var PCstatus = 'Mobile';
+			
+			 var isMobile = {
+			    Android: function() {
+			        return navigator.userAgent.match(/Android/i);
+			    },
+			    BlackBerry: function() {
+			        return navigator.userAgent.match(/BlackBerry/i);
+			    },
+			    iOS: function() {
+			        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+			    },
+			    Opera: function() {
+			        return navigator.userAgent.match(/Opera Mini/i);
+			    },
+			    Windows: function() {
+			        return navigator.userAgent.match(/IEMobile/i);
+			    },
+			    any: function() {
+			        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+			    }
+			}
+			if( !isMobile.any() ){
+							 var PCstatus = 'Desktop';
+			}
+
+			    var x = document.getElementsByName("gender");
+			    var s;
+				for (var i = 0, length = x.length; i < length; i++)
+				{
+				 if (x[i].checked)
+				 {
+				  // do whatever you want with the checked radio
+				   s = x[i].value;
+				  //alert(s);
+
+				  // only one radio can be logically checked, don't check the rest
+				  break;
+				 }
+				}
+				
+				firebase.auth().createUserWithEmailAndPassword(email, password).then(function(user) {
+					$("#submit").attr("disabled", "disabled");
+			$(".fa-spinner").show();
+
+                   var uid = user.uid;
+				   	var data = {
+							"user_id": uid,
+							"first_name": first_name,
+							"last_name": last_name,
+							"email": email,
+							"birthdate":bdate,
+							"membership_type": 'Free',
+							 "gender":s,
+							 "login_via": "email",
+							 "registered_on":datetime,
+							 "lastUpdated_on":datetime,
+							 "device_type":PCstatus,
+							 "activated_on":"",
+							 "activation_code":"",
+							 "device_token" : "123456789",
+							 "fb_id": "",
+						//	 "access_code": access_code,
+
+
+						}
+
+
+						var updates = {};
+						updates['/Users/' + uid] = data;
+        				firebase.database().ref().update(updates);
+
+						$.post("http://34.215.40.163/sendEmailVerification.php?uid="+uid, { mail: email }, function(result) {
+							$("#submit").removeAttr("disabled");
+							$(".fa-spinner").hide();
+					//	window.location.href  = "http://localhost/DiveThru/amazon-ses-sample.php?uid="+uid;
+					//alert('successfully posted '+email);
+							console.log(result);
+        				//alert('This User Created Sucessfully');
+        				//window.location.href = "http://34.215.40.163/welcome.php";
+        				document.getElementById('head').innerHTML = "A link to verify your email address has been sent. Please Check your email to proceed further.";
+						document.getElementById('head').style.color = "green";
+						});
+            	}, function(error) {
+            		/*var tx = document.getElementById('head').innerText;
+            		if(!tx){
+            			alert('This User Already Exist');		
+            		}*/
+            		//document.getElementById('head').innerHTML=error.message;
+                  document.getElementById('head').innerHTML='This User Already Exist';
+            	});
+
+				
+}
+
+function _calculateAge() { // birthday is a date
+	//alert(birthdate_status);
+        var date1 = new Date();
+        var  dob= document.getElementById("birthdate").value;
+		//alert(dob);
+        var date2=new Date(dob);
+        var pattern = /^\d{1,2}\/\d{1,2}\/\d{4}$/; //Regex to validate date format (dd/mm/yyyy)
+        if (pattern.test(dob)) {
+            var y1 = date1.getFullYear(); //getting current year
+            var y2 = date2.getFullYear(); //getting dob year
+            var age = y1 - y2;           //calculating age 
+          //  confirm("Age : " + age);
+			if(age<8)
+			{
+				//alert("please come after 8");
+				document.getElementById("bdt").innerHTML = "* User must be 8 year old or above";
+				document.getElementById("birthdate").value = '';
+			}else{
+				document.getElementById("bdt").innerHTML = "";
+			}
+        } else {
+            alert("Please Input in (dd/mm/yyyy) format!");
+        }
+}
+
+
+// function fbsave_user(){
+	
+// 	//alert(55);
+// 	var provider = new firebase.auth.FacebookAuthProvider();
+// //	provider.addScope('email');
+// provider.addScope('user_birthday');
+// 	firebase.auth().signInWithPopup(provider).then(function(result) {
+//   // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+//   var token = result.credential.accessToken;
+//   // The signed-in user info.
+//   var user = result.user;
+//   var detail = result.additionalUserInfo.profile;
+//   var first_name = detail.first_name;
+//   var last_name = detail.last_name;
+//   var gender = detail.gender;
+//   var fbid = detail.id;
+//   var birthday = detail.birthday;
+//   var loginvia = "Facebook";
+//   //var membership_type = "free";
+//   // ...
+// save_fbuser(uid,first_name,last_name,email,fbid,birthday,gender);
+// });
+// }
+
+// function save_fbuser(uid,first_name,last_name,email,fbid,birthday,gender) {
+
+// 			//alert('ss');
+// 			//return;
+// 			var currentdate = new Date(); 
+// 			var datetime = 
+// 			    + currentdate.getDate() + "/"
+//                 + (currentdate.getMonth()+1)  + "/" 
+//                 + currentdate.getFullYear() + "  "  
+//                 + currentdate.getHours() + ":"  
+//                 + currentdate.getMinutes() + ":" 
+//                 + currentdate.getSeconds();
+// 			 var PCstatus = 'Mobile';
+			
+// 			 var isMobile = {
+// 			    Android: function() {
+// 			        return navigator.userAgent.match(/Android/i);
+// 			    },
+// 			    BlackBerry: function() {
+// 			        return navigator.userAgent.match(/BlackBerry/i);
+// 			    },
+// 			    iOS: function() {
+// 			        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+// 			    },
+// 			    Opera: function() {
+// 			        return navigator.userAgent.match(/Opera Mini/i);
+// 			    },
+// 			    Windows: function() {
+// 			        return navigator.userAgent.match(/IEMobile/i);
+// 			    },
+// 			    any: function() {
+// 			        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+// 			    }
+// 			}
+// 			if( !isMobile.any() ){
+// 							 var PCstatus = 'Desktop';
+// 			}
+
+// 			    var x = document.getElementsByName("gender");
+// 			    var s;
+// 				for (var i = 0, length = x.length; i < length; i++)
+// 				{
+// 				 if (x[i].checked)
+// 				 {
+// 				  // do whatever you want with the checked radio
+// 				   s = x[i].value;
+// 				  //alert(s);
+
+// 				  // only one radio can be logically checked, don't check the rest
+// 				  break;
+// 				 }
+// 				}
+				
+// 			//	console.log("ss"+uid);
+//                  //  var uid = user.uid;
+// 				   	var data = {
+// 							"user_id": uid,
+// 							"first_name": first_name,
+// 							"last_name": last_name,
+// 							"email": email,
+// 							"fb_id":fbid,
+// 							"login_via": "FACEBOOK",
+// 							"birthdate":birthday,
+// 							 "gender":gender,
+// 							 "registered_on":datetime,
+// 							 "lastUpdated_on":datetime,
+// 							 "device_type":PCstatus,
+// 							 "activated_on":"",
+// 							 "activated_code":"",
+// 							 "device_token" : "123456789",
+// 							 "membership_type" : "Free",
+// 						}
+// 						var updates = {};
+// 						updates['/Users/' + uid] = data;
+//         				firebase.database().ref().update(updates);
+//         				alert('This User Created Sucessfully');
+            	
+				
+// }
+
+function fbsave_user(){
+	
+	//alert(55);
+	var provider = new firebase.auth.FacebookAuthProvider();
+//	provider.addScope('email');
+provider.addScope('user_birthday');
+	firebase.auth().signInWithPopup(provider).then(function(result) {
+		var fbuser = firebase.auth().currentUser
+		if(fbuser){
+			 window.location.href = "http://34.215.40.163/welcome.php";
+			}else{
+  // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+  				var token = result.credential.accessToken;
+  // The signed-in user info.
+  //console.log();
+  		 	  var user = result.user;
+  			  var uid = user.uid;
+ 			  var detail = result.additionalUserInfo.profile;
+ 		  	  var first_name = detail.first_name;
+           	  var last_name = detail.last_name;
+           	  var gender = detail.gender;
+  		   	  var fbid = detail.id;
+  		      var birthday = detail.birthday;
+  		      var loginvia = "Facebook";
+  //var membership_type = "free";
+  			// ...
+		save_fbuser(uid,first_name,last_name,email,fbid,birthday,gender);
+	}
+});
+}
+
+	
+function save_fbuser(uid,first_name,last_name,email,fbid,birthday,gender) {
+
+			//alert(uid);
+			//return;
+			var currentdate = new Date(); 
+			var datetime = 
+			    + currentdate.getDate() + "/"
+                + (currentdate.getMonth()+1)  + "/" 
+                + currentdate.getFullYear() + "  "  
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds();
+			 var PCstatus = 'Mobile';
+			
+			 var isMobile = {
+			    Android: function() {
+			        return navigator.userAgent.match(/Android/i);
+			    },
+			    BlackBerry: function() {
+			        return navigator.userAgent.match(/BlackBerry/i);
+			    },
+			    iOS: function() {
+			        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+			    },
+			    Opera: function() {
+			        return navigator.userAgent.match(/Opera Mini/i);
+			    },
+			    Windows: function() {
+			        return navigator.userAgent.match(/IEMobile/i);
+			    },
+			    any: function() {
+			        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+			    }
+			}
+			if( !isMobile.any() ){
+							 var PCstatus = 'Desktop';
+			}
+
+			    var x = document.getElementsByName("gender");
+			    var s;
+				for (var i = 0, length = x.length; i < length; i++)
+				{
+				 if (x[i].checked)
+				 {
+				  // do whatever you want with the checked radio
+				   s = x[i].value;
+				  //alert(s);
+
+				  // only one radio can be logically checked, don't check the rest
+				  break;
+				 }
+				}
+				
+			//	console.log("ss"+uid);
+                 //  var uid = user.uid;
+				   	var data = {
+							"user_id": uid,
+							"first_name": first_name,
+							"last_name": last_name,
+							"email": email,
+							"fb_id":fbid,
+							"login_via": "FACEBOOK",
+							"birthdate":birthday,
+							 "gender":gender,
+							 "registered_on":datetime,
+							 "lastUpdated_on":datetime,
+							 "device_type":PCstatus,
+							 "activated_on":"",
+							 "activated_code":"",
+							 "device_token" : "123456789",
+							 "membership_type" : "Free",
+						}
+						var updates = {};
+						updates['/Users/' + uid] = data;
+        				firebase.database().ref().update(updates);
+        				alert('This User Created Sucessfully');
+            	
+				
+}
